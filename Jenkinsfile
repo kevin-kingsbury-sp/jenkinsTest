@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh 'ant --version'
+        sh 'ant -version'
       }
     }
   }
