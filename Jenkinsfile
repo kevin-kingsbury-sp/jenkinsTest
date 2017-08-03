@@ -14,10 +14,12 @@ pipeline {
     }
 
     stage('Promote to RC') {
-      input "Promote to Release Candidate Build?"
-      milestone()
-      node {
-        echo 'Promoting to RC'
+      steps {
+        input "Promote to Release Candidate Build?"
+        milestone()
+        node {
+          echo 'Promoting to RC'
+        }
       }
     }
   }
