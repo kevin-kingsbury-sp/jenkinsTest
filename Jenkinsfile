@@ -5,19 +5,19 @@ pipeline {
       steps {
         echo 'Building...'
       }
+    }
 
-      stage('test') {
-        steps {
-          echo 'Testing...'
-        }
+    stage('test') {
+      steps {
+        echo 'Testing...'
       }
+    }
 
-      stage('Promote to RC') {
-        input "Promote to Release Candidate Build?"
-        milestone()
-        node {
-          echo 'Promoting to RC'
-        }
+    stage('Promote to RC') {
+      input "Promote to Release Candidate Build?"
+      milestone()
+      node {
+        echo 'Promoting to RC'
       }
     }
   }
