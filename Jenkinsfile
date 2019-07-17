@@ -12,6 +12,9 @@ pipeline {
         skipDefaultCheckout()
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '')
     }
+    environment {
+        revistionts = ""
+    }
 
     stages {
         stage('Checkout') {
@@ -23,16 +26,16 @@ pipeline {
         }
         stage('Build') {
             steps {
-                env.revisionts = "20190716114825"
                 node('sunfish') {
                     sh 'echo "Running build!!!"; env'
+                    sh 'revisionts=20190716114825;echo "Running build2!!!"; env'
                 }
             }
         }
         stage('Test') {
             steps {
                 node('sunfish') {
-                    sh 'echo "Success!"; exit 0'
+                    sh 'echo "Success!"; env; exit 0'
                 }
             }
         }
