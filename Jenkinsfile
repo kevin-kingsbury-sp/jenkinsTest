@@ -25,6 +25,7 @@ pipeline {
             steps {
                 node('sunfish') {
                     sh 'echo "Running build!!!"; env'
+                    env.revisionts = "20190716114825"
                 }
             }
         }
@@ -40,6 +41,7 @@ pipeline {
         always {
             echo 'This will always run'
             echo "Build Variables are: ${currentBuild.buildVariables}"
+            echo "Build Revision Timestamp: ${env.revisionts}"
             sendNotification(currentBuild.currentResult)
         }
         success {
