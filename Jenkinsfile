@@ -13,7 +13,7 @@ pipeline {
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '')
     }
     environment {
-        revistionts = ""
+        revisionts = "none"
     }
 
     stages {
@@ -27,15 +27,15 @@ pipeline {
         stage('Build') {
             steps {
                 node('sunfish') {
-                    sh 'echo "Running build!!!"; env'
-                    sh 'revisionts=20190716114825;echo "Running build2!!!"; env'
+                    sh 'echo "Running build!!!"; printenv'
+                    sh 'revisionts=20190716114825;echo "Running build2!!!"; printenv'
                 }
             }
         }
         stage('Test') {
             steps {
                 node('sunfish') {
-                    sh 'echo "Success!"; env; exit 0'
+                    sh 'echo "Success!"; printenv; exit 0'
                 }
             }
         }
