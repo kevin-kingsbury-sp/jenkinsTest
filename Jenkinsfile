@@ -1,6 +1,9 @@
 def sendNotification(String buildStatus = 'STARTED') {
     echo "MESSAGE: buildStatus is ${buildStatus}"
-    emailext attachLog: true, body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: 'kevin.kingsbury@sailpoint.com'
+    emailext attachLog: true,
+        body: '$DEFAULT_CONTENT',
+        subject: '$DEFAULT_SUBJECT',
+        to: 'kevin.kingsbury@sailpoint.com'
 }
 
 pipeline {
@@ -28,7 +31,7 @@ pipeline {
         stage('Test') {
             steps {
                 node('sunfish') {
-                    sh 'echo "Fail!"; exit 1'
+                    sh 'echo "Success!"; exit 0'
                 }
             }
         }
@@ -36,7 +39,7 @@ pipeline {
     post {
         always {
             echo 'This will always run'
-            echo 'Build Variables are: ${currentBuild.buildVariables}'
+            echo "Build Variables are: ${currentBuild.buildVariables}"
             sendNotification(currentBuild.currentResult)
         }
         success {
