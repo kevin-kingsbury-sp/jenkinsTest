@@ -36,6 +36,7 @@ pipeline {
     post {
         always {
             echo 'This will always run'
+            echo 'Build Variables are: ${currentBuild.buildVariables}'
             sendNotification(currentBuild.currentResult)
         }
         success {
