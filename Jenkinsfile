@@ -18,6 +18,13 @@ pipeline {
                 }
             }
         }
+        stage('Build') {
+            steps {
+                node('sunfish') {
+                    sh 'echo "Running build!!!"; env'
+                }
+            }
+        }
         stage('Test') {
             steps {
                 node('sunfish') {
