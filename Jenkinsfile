@@ -6,14 +6,35 @@ def sendNotification(String buildStatus = 'STARTED') {
         to: 'kevin.kingsbury@sailpoint.com'
 }
 
+def getChangeString() {
+    def changeString = ""
+
+    echo "Gathering SCM changes"
+    def changeLogSets = currentBuild.changeSets
+    for (int i = 0; i < changeLogSets.size(); i++) {
+      def entries = changeLogSets[i].items
+      for (int j = 0; j < entries.length; j++) {
+        def entry = entries[j]
+        echo "${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}"
+        def files = new ArrayList(entry.affectedFiles)
+          for (int k = 0; k < files.size(); k++) {
+            def file = files[k]
+            echo "  ${file.editType.name} ${file.path}"
+          }
+      }
+    }
+
+    if (!changeString) {
+        changeString = " - No new changes"
+    }
+    return changeString
+}
+
 pipeline {
     agent none
     options {
         skipDefaultCheckout()
         buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '')
-    }
-    environment {
-        revisionts = "none"
     }
 
     stages {
@@ -21,6 +42,7 @@ pipeline {
             steps {
                 node('sunfish') {
                     checkout scm
+                    getChangeString
                 }
             }
         }
