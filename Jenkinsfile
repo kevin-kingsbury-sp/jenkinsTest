@@ -23,9 +23,9 @@ pipeline {
         }
         stage('Build') {
             steps {
+                env.revisionts = "20190716114825"
                 node('sunfish') {
                     sh 'echo "Running build!!!"; env'
-                    env.revisionts = "20190716114825"
                 }
             }
         }
