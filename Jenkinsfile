@@ -28,7 +28,7 @@ pipeline {
             steps {
                 node('sunfish') {
                     sh 'echo "Running build!!!"; printenv'
-                    sh 'revisionts=20190716114825;echo "Running build2!!!"; printenv'
+                    sh 'export revisionts=20190716114825;echo "Running build2!!!"; printenv'
                 }
             }
         }
