@@ -42,7 +42,7 @@ pipeline {
             steps {
                 node('sunfish') {
                     checkout scm
-                    getChangeString
+                    getChangeString()
                 }
             }
         }
