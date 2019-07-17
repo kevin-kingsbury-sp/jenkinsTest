@@ -1,19 +1,48 @@
-#!/usr/bin/env groovy
-
-pipeline {
-  agent { label 'linux' }
-  stages {
-    stage('build') {
-      steps {
-        echo 'Building...'
-      }
-    }
-
-    stage('test') {
-      steps {
-        echo 'Testing...'
-      }
-    }
-  }
+def sendNotification(String buildStatus = 'STARTED') {
+    echo "MESSAGE: buildStatus is ${buildStatus}"
+    emailext attachLog: true, body: '$DEFAULT_CONTENT', subject: '$DEFAULT_SUBJECT', to: 'kevin.kingsbury@sailpoint.com'
 }
 
+pipeline {
+    agent none
+    options {
+        skipDefaultCheckout()
+        buildDiscarder logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                node('sunfish') {
+                    checkout scm
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                node('sunfish') {
+                    sh 'echo "Fail!"; exit 1'
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo 'This will always run'
+            sendNotification(currentBuild.currentResult)
+        }
+        success {
+            echo 'This will run only if successful'
+        }
+        failure {
+            echo 'This will run only if failure'
+        }
+        unstable {
+            echo 'This will run only if the run was marked as unstable'
+        }
+        changed {
+            echo 'This will run only if the state of the Pipeline has changed'
+            echo 'For example, if the Pipeline was previously failing but is now successful'
+        }
+    }
+}
