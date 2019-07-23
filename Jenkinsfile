@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 def sendNotification(String buildStatus = 'STARTED') {
     echo "MESSAGE: buildStatus is ${buildStatus}"
     emailext attachLog: true,
