@@ -6,6 +6,43 @@ def sendNotification(String buildStatus = 'STARTED') {
         to: 'kevin.kingsbury@sailpoint.com'
 }
 
+def getBuildLastCommitEntry() {
+    def items = null
+    def result = null
+
+    if (currentBuild != null &&
+            currentBuild.changeSets != null &&
+            currentBuild.changeSets.size() &&
+            currentBuild.changeSets[currentBuild.changeSets.size() - 1].items.length) {
+        items = currentBuild.changeSets[currentBuild.changeSets.size() - 1].items
+        result = items[items.length - 1]
+    }
+
+    return result
+}
+
+// Get revision timestamp for latest commit in the format 20190722153029
+def getBuildRevisionTimestamp() {
+    def localDate = null
+    def revisionTS = null
+
+    echo "Getting Revision Timestamp from latest commit!!!"
+
+    def lastCommitEntry = getBuildLastCommitEntry();
+
+    if (lastCommitEntry != null) {
+        echo "TIMESTAMP: ${lastCommitEntry.timestamp} / DATE: ${new Date(lastCommitEntry.timestamp)}"
+        localDate = LocalDate.ofEpochDay(lastCommitEntry.timestamp)
+    }
+
+    if (localDate != null) {
+        revisionTS = localDate.format(new DateFormatter('yyyyMMddHHmmss'))
+    }
+
+    echo "REVISION TIMESTAMP: ${revisionTS}"
+    return revisionTS
+}
+
 def getChangeString() {
     def changeString = ""
 
@@ -43,6 +80,7 @@ pipeline {
                 node('sunfish') {
                     checkout scm
                     getChangeString()
+                    getBuildRevisionTimestamp()
                 }
             }
         }
