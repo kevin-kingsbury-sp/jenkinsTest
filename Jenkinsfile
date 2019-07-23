@@ -31,7 +31,7 @@ def getBuildRevisionTimestamp() {
     echo "Getting Revision Timestamp from latest commit!!!"
 
     def lastCommitTimestamp = sh(
-          script: "git --no-pager log --date=local --pretty=format:\\\"%ct\\\" -1",
+          script: "git --no-pager log --date=local --pretty=format:\'%ct\' -1",
           returnStdout: true
         ).trim()
 
