@@ -31,12 +31,14 @@ def getBuildRevisionTimestamp() {
     def lastCommitEntry = getBuildLastCommitEntry();
 
     if (lastCommitEntry != null) {
-        echo "TIMESTAMP: ${lastCommitEntry.timestamp} / DATE: ${new Date(lastCommitEntry.timestamp)}"
-        localDate = LocalDate.ofEpochDay(lastCommitEntry.timestamp)
+        localDate = new Date(lastCommitEntry.timestamp)
+        echo "TIMESTAMP: ${lastCommitEntry.timestamp}"
+        echo "DATE: ${new Date(lastCommitEntry.timestamp)}"
     }
 
     if (localDate != null) {
-        revisionTS = localDate.format(new DateFormatter('yyyyMMddHHmmss'))
+        def sdf = new SimpleDateFormat("yyyyMMddHHmmss")
+        revisionTS = sdf.format(localDate)
     }
 
     echo "REVISION TIMESTAMP: ${revisionTS}"
