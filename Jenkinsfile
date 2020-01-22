@@ -1,23 +1,48 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    agent any
+    agent none
+    options {
+        skipDefaultCheckout()
+    }
     stages {
-        stage('build') {
+        stage('Checkout') {
             steps {
-                echo 'Building...'
+                node('drabbler') {
+                    dir ("identityiq") {
+                        deleteDir()
+                        checkout scm
+                    }
+                }
+            }
+        }
+        stage('Build') {
+            steps {
+                node('master') {
+                    echo 'Building...'
+                    sh 'false'
+                }
             }
         }
 
-        stage('test') {
+        stage('Test') {
             steps {
-                echo 'Testing...'
+                node('master') {
+                    echo 'Testing...'
+                }
             }
         }
     }
     post {
         always {
-            emailext body: '$DEFAULT_CONTENT', replyTo: '$DEFAULT_REPLYTO', subject: '$DEFAULT_SUBJECT', to: 'kevin.kingsbury@sailpoint.com'
+            node('master') {
+                emailext body: '$DEFAULT_CONTENT', replyTo: '$DEFAULT_REPLYTO', subject: '$DEFAULT_SUBJECT', to: 'kevin.kingsbury@sailpoint.com'
+            }
+        }
+        failure {
+            node('master') {
+                emailext body: '$DEFAULT_CONTENT', recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'FirstFailingBuildSuspectsRecipientProvider']], replyTo: '$DEFAULT_REPLYTO', subject: '$DEFAULT_SUBJECT'
+            }
         }
     }
 }
