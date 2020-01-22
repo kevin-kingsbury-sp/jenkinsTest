@@ -4,7 +4,7 @@ def buildNode = "master"
 def sendBuildEmail(buildStatus) {
     def recipients = "kevin.kingsbury@sailpoint.com"
 
-    echo "Build status is" + buildStatus
+    echo "Build status is " + buildStatus
 
     if (buildStatus == 'FAILURE' || buildStatus == 'UNSTABLE') {
         // Add the Culprits and Suspects to the recipients
@@ -12,43 +12,35 @@ def sendBuildEmail(buildStatus) {
             [$class: 'FirstFailingBuildSuspectsRecipientProvider'],
             [$class: 'CulpritsRecipientProvider']
         ])
-        echo "Recipients: " + recipients
     }
+    echo "Recipients: " + recipients
 
-    node(buildNode) {
-        emailext subject: '$DEFAULT_SUBJECT',
+    emailext subject: '$DEFAULT_SUBJECT',
         body: '$DEFAULT_CONTENT',
         replyTo: '$DEFAULT_REPLYTO',
         to: recipients
-    }
 }
 
 pipeline {
-    agent none
+    agent { label "${buildNode}" }
     options {
         skipDefaultCheckout()
     }
     stages {
         stage('Checkout') {
             steps {
-                node('master') {
-                    checkout scm
-                }
+                checkout scm
             }
         }
         stage('Build') {
             steps {
-                node('master') {
-                    echo 'Building...'
-                }
+                echo 'Building...'
             }
         }
 
         stage('Test') {
             steps {
-                node('master') {
-                    echo 'Testing...'
-                }
+                echo 'Testing...'
             }
         }
     }
