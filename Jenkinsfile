@@ -8,11 +8,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                node('drabbler') {
-                    dir ("identityiq") {
-                        deleteDir()
-                        checkout scm
-                    }
+                node('master') {
+                    checkout scm
                 }
             }
         }
@@ -46,4 +43,3 @@ pipeline {
         }
     }
 }
-
