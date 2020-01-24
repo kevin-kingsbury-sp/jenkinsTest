@@ -1,8 +1,13 @@
 #!/usr/bin/env groovy
-def buildNode = "master"
+
+import groovy.transform.Field;
+
+// Pipeline configuration
+@Field def buildNode = "master"
+@Field def buildersEmail = "kevin.kingsbury@sailpoint.com"
 
 def sendBuildEmail(buildStatus) {
-    def recipients = "kevin.kingsbury@sailpoint.com"
+    def recipients = buildersEmail
 
     echo "Build status is " + buildStatus
 
