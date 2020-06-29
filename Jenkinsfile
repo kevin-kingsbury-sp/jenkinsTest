@@ -3,7 +3,7 @@
 import groovy.transform.Field;
 
 // Pipeline configuration
-@Field def buildNode = "master"
+@Field def buildNode = "iiq80"
 @Field def buildersEmail = "kevin.kingsbury@sailpoint.com"
 
 def sendBuildEmail(buildStatus) {
