@@ -20,9 +20,10 @@ def sendBuildEmail(buildStatus) {
     }
     echo "Recipients: " + recipients
 
-    emailext subject: '$DEFAULT_SUBJECT',
-        body: '$DEFAULT_CONTENT',
-        replyTo: '$DEFAULT_REPLYTO',
+    emailext mimeType: 'text/html',
+        subject: 'Jenkins Build: "${currentBuild.fullDisplayName}"',
+        body: '${SCRIPT, template="${WORKSPACE}/email-templates/groovy5-html.template"}',
+        replyTo: 'builders@sailpoint.com',
         to: recipients
 }
 
