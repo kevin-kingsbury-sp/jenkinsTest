@@ -94,29 +94,29 @@
   if ( junitResultList.size() > 0 ) { %>
   <table class="section">
     <tr class="tr-title">
-	      <td class="td-title" colspan="5">${junitResultList.first().displayName}</td>
+	    <td class="td-title" colspan="5">${junitResultList.first().displayName}</td>
     </tr>
     <tr>
-        <td colspan="5">
-            <table class="section">
-                <tr>
-                    <td>Total Tests: ${junitResultList.first().getTotalCount()}</td>
-                </tr>
-                <tr>
-                    <td>Total Failed: ${junitResultList.first().getFailCount()}</td>
-                </tr>
-                <tr>
-                    <td>Total Skipped: ${junitResultList.first().getSkipCount()}</td>
-                </tr>
-            </table>
-        </td>
+      <td colspan="5">
+        <table class="section">
+          <tr>
+            <td>Total Tests: ${junitResultList.first().getTotalCount()}</td>
+          </tr>
+          <tr>
+            <td>Total Failed: ${junitResultList.first().getFailCount()}</td>
+          </tr>
+          <tr>
+            <td>Total Skipped: ${junitResultList.first().getSkipCount()}</td>
+          </tr>
+        </table>
+      </td>
     </tr>
     <tr>
         <td class="td-title-tests">Name</td>
         <td class="td-title-tests">Failed</td>
         <td class="td-title-tests">Skipped</td>
         <td class="td-title-tests">Total</td>
-      </tr>
+    </tr>
     <% junitResultList.each {
       junitResult -> junitResult.getChildren().each {
         packageResult -> %>
