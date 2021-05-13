@@ -22,7 +22,7 @@ def sendBuildEmail(buildStatus) {
 
     emailext mimeType: 'text/html',
         subject: 'Jenkins Build: "${currentBuild.fullDisplayName}"',
-        body: '${SCRIPT, template="groovy5-html.template"}',
+        body: '${SCRIPT, template="release-email-groovy.template"}',
         replyTo: 'builders@sailpoint.com',
         to: recipients
 }
