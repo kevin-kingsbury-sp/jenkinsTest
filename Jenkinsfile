@@ -3,7 +3,7 @@
 import groovy.transform.Field;
 
 // Pipeline configuration
-@Field def buildNode = "iiq80"
+@Field def buildNode = "r&d"
 @Field def buildersEmail = "kevin.kingsbury@sailpoint.com"
 
 def sendBuildEmail(buildStatus) {
@@ -51,6 +51,7 @@ pipeline {
     }
     post {
         always {
+            step([$class: 'JUnitResultArchiver', testResults: 'junitreports/*.xml'])
             sendBuildEmail(currentBuild.currentResult)
         }
     }
