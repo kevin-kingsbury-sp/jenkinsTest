@@ -64,13 +64,6 @@
       <td>URL:</td>
       <td><A href="${rooturl}${build.url}">${rooturl}${build.url}</A></td>
     </tr>
-        <tr>
-          <td>Extent Report Node1:</td>
-          <td><A href="${rooturl}${build.url}artifact/iiq-test1/selenium/test-output/ExtentReportResults.html">Extent Report 1</A></td>
-    <tr>
-        <tr>
-          <td>Extent Report Node2:</td>
-          <td><A href="${rooturl}${build.url}artifact/iiq-test2/selenium/test-output/ExtentReportResults.html">Extent Report 2</A></td>
     <tr>
       <td>Project:</td>
       <td>${project.name}</td>
@@ -102,6 +95,21 @@
   <table class="section">
     <tr class="tr-title">
 	      <td class="td-title" colspan="5">${junitResultList.first().displayName}</td>
+    </tr>
+    <tr>
+        <td colspan="5">
+            <table class="section">
+                <tr>
+                    <td>Total Tests: ${junitResultList.first().getTotalCount()}</td>
+                </tr>
+                <tr>
+                    <td>Total Failed: ${junitResultList.first().getFailCount()}</td>
+                </tr>
+                <tr>
+                    <td>Total Skipped: ${junitResultList.first().getSkipCount()}</td>
+                </tr>
+            </table>
+        </td>
     </tr>
     <tr>
         <td class="td-title-tests">Name</td>
