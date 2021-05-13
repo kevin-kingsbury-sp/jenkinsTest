@@ -21,7 +21,7 @@ def sendBuildEmail(buildStatus) {
     echo "Recipients: " + recipients
 
     emailext mimeType: 'text/html',
-        subject: "Jenkins Build: ${currentBuild.fullDisplayName} - ${buildStatus}",
+        subject: "Jenkins Build: ${env.BRANCH_NAME} #${env.BUILD_NUMBER} - ${buildStatus}",
         body: '${SCRIPT, template="release-email-groovy.template"}',
         replyTo: 'builders@sailpoint.com',
         to: recipients
