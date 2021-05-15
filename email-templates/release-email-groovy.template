@@ -40,7 +40,7 @@
     padding-left: 5px;
   }
   .tr-title {
-    background-color: <%= (build.result == null || build.result.toString() == 'SUCCESS') ? '#27AE60' : build.result.toString() == 'FAILURE' ? '#E74C3C' : '#F4E242' %>;
+    background-color: <%= (build.result == null || build.result.toString() == 'SUCCESS') ? '#27AE60' : '#E74C3C' %>;
   }
   .test {
     padding-left: 20px;
